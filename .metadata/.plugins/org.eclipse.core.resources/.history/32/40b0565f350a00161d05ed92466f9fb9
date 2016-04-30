@@ -1,0 +1,12 @@
+package com.example.beanvalidation.payload;
+
+import javax.validation.Payload;
+
+public class Payload {
+    public static interface Warning extends PayloadInterface {
+    };
+
+    public static interface Error extends PayloadInterface {
+    };
+}
+

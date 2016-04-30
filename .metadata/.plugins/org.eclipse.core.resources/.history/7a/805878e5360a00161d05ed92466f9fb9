@@ -1,0 +1,6 @@
+package com.example.beanvalidation.web;
+
+@Controller
+public class Controller {
+
+}

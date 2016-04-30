@@ -1,0 +1,37 @@
+package com.example.beanvalidation.custom;
+
+import java.util.Iterator;
+import java.util.Set;
+
+import javax.validation.ConstraintViolation;
+import javax.validation.Validation;
+import javax.validation.Validator;
+import javax.validation.ValidatorFactory;
+
+public class BeanValidationError {
+    
+    public static void main(String[] arg) {
+            
+        ValidatorFactory validatorfactory = Validation.buildDefaultValidatorFactory();
+        Validator validator = validatorfactory.getValidator();
+        User user = new User();
+        user.setName(null);
+        user.setAge(0);
+        user.setPhone("00000000000");
+        
+        Set<ConstraintViolation<User>> constraintviolation = validator.validate(user);
+        
+        System.out.println("the number of constraint violation is " + constraintviolation.size());
+        
+        Iterator<ConstraintViolation<User>> iterator = constraintviolation.iterator();
+        
+        while (iterator.hasNext()) {
+            ConstraintViolation<User> constraintViolation = iterator.next();
+
+            System.out.println("----------------------------------------------");
+            System.out.println("invalid value : " + constraintViolation.getInvalidValue());
+            System.out.println("message : " + constraintViolation.getPropertyPath() + " " + constraintViolation.getMessage());
+            System.out.println("class name : " + constraintViolation.getRootBeanClass().getSimpleName());
+        }
+    }
+}

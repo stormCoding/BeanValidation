@@ -1,0 +1,22 @@
+package com.example.basicvalidator;
+
+public class BasicValidator {
+    public void validate(User user) {
+        if(user.getName() == null) {
+            throw new IllegalArgumentException("이름은 필수 정보입니다.");
+        }
+        if(user.getAge() < 19) {
+            throw new IllegalArgumentException("나이는 19살 이상이어야 합니다.");
+        }
+    }
+
+    public static void main(String[] arg) {
+        User user = new User();
+        user.setName(null);
+        user.setAge(0);
+
+        BasicValidator basicvalidator = new BasicValidator();
+
+        basicvalidator.validate(user);
+    }
+}

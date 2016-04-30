@@ -1,0 +1,110 @@
+package com.example.beanvalidation.message;
+
+import java.util.Iterator;
+import java.util.Set;
+
+import javax.validation.ConstraintViolation;
+import javax.validation.Validation;
+import javax.validation.Validator;
+import javax.validation.ValidatorFactory;
+
+/**
+ * @ClassName   : Main
+ * @Description : BeanValidation Message Example
+ * @Author      : Jo Wontae
+ * @Date        : 2016. 4. 24.
+ */
+public class Main {
+
+    /**
+     * @Title       : main
+     * @Description : test execution
+     * @date        : 2016. 4. 24.
+     * @throws      : Exception
+     */
+    public static void main(String[] arg) throws Exception {
+        Main main = new Main();
+
+        // test success
+        main.successValidate();
+
+        // test error
+        main.errorValidate();
+    }
+
+    /**
+     * @Title       : successValidate
+     * @Description : user domain validate
+     * @date        : 2016. 4. 24.
+     * @throws      : Exception
+     */
+    public void successValidate() throws Exception {
+
+        System.out.println("***************************** start success Validation *****************************");
+        User user = new User();
+        user.setName("Jo Wontae");
+        user.setAge(29);
+        
+        ValidatorFactory validatorfactory = Validation.buildDefaultValidatorFactory();
+        Validator validator = validatorfactory.getValidator();
+
+        Set<ConstraintViolation<User>> constraintviolation = validator.validate(user);
+
+        System.out.println("the number of constraint violation is " + constraintviolation.size());
+
+        Iterator<ConstraintViolation<User>> iterator = constraintviolation.iterator();
+
+        if(constraintviolation.size() == 0) {
+            System.out.println("success");
+        }else{
+            while(iterator.hasNext()) {
+                ConstraintViolation<User> constraintViolation = iterator.next();
+
+                System.out.println("----------------------------------------------");
+                System.out.println("class name      : " + constraintViolation.getRootBeanClass().getSimpleName());
+                System.out.println("variable        : " + constraintViolation.getPropertyPath());
+                System.out.println("invalid value   : " + constraintViolation.getInvalidValue());
+                System.out.println("message         : " + constraintViolation.getMessage());
+            }
+        }
+        System.out.println("***************************** end success Validation *****************************");
+    }
+
+    /**
+     * @Title       : errorValidate
+     * @Description : user domain validate
+     * @date        : 2016. 4. 24.
+     * @throws      : Exception
+     */
+    public void errorValidate() throws Exception {
+
+        System.out.println("***************************** start error Validation *****************************");
+        User user = new User();
+        user.setName(null);
+        user.setAge(0);
+        
+        ValidatorFactory validatorfactory = Validation.buildDefaultValidatorFactory();
+        Validator validator = validatorfactory.getValidator();
+
+        Set<ConstraintViolation<User>> constraintviolation = validator.validate(user);
+        
+        System.out.println("the number of constraint violation is " + constraintviolation.size());
+        
+        Iterator<ConstraintViolation<User>> iterator = constraintviolation.iterator();
+        
+        if(constraintviolation.size() == 0) {
+            System.out.println("success");
+        }else{
+            while(iterator.hasNext()) {
+                ConstraintViolation<User> constraintViolation = iterator.next();
+
+                System.out.println("----------------------------------------------");
+                System.out.println("class name      : " + constraintViolation.getRootBeanClass().getSimpleName());
+                System.out.println("variable        : " + constraintViolation.getPropertyPath());
+                System.out.println("invalid value   : " + constraintViolation.getInvalidValue());
+                System.out.println("message         : " + constraintViolation.getMessage());
+            }
+        }
+        System.out.println("***************************** end error Validation *****************************");
+    }
+}
